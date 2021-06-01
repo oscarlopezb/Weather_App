@@ -91,7 +91,7 @@ const renderMap = () => {
     map = new mapboxgl.Map({
         container: 'oscarmapa',
         style: 'mapbox://styles/oscarlopezb/ckpbdlu117rqm18pv0flv0ot8',
-        center: [mapPosition.lng, mapPosition.lat],
+        center: mapPosition.center,
         zoom: mapPosition.zoom
     });
 }
