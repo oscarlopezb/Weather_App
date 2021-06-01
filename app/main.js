@@ -51,16 +51,12 @@ const loadMapInfo = () => {
     }
 }
 
-
-
 const renderMapViewHeader = () => {
     const header = document.querySelector('.header');
     header.innerHTML = `
         <div class="consultar">Consulta el tiempo de tu zona</div>
     `;
 }
-
-
 
 const renderMapViewMain = () => {
     const main = document.querySelector('.main');
@@ -73,11 +69,18 @@ const renderMapViewMain = () => {
 
 const renderMapViewFooter = () => {
     const footer = document.querySelector('.footer');
+    
     footer.innerHTML = `
-        <div class="ubicacion">
-            <div class="fa fa-crosshairs"></div>
-            <p>Volver a mi ubicación</p>
+
+        <div class="footermodal">
+
+            <div class="ubicacion cerrar">
+                <div class="fa fa-crosshairs"></div>
+                <p>Volver a mi ubicación</p>
+            </div>
+
         </div>
+        
 `
     footer.addEventListener("click", () => {
         flyToLocation();
@@ -91,13 +94,6 @@ const renderMap = () => {
         center: [mapPosition.lng, mapPosition.lat],
         zoom: mapPosition.zoom
     });
-
-    // navigator.geolocation.getCurrentPosition(({ coords }) => {
-    //     map.flyTo({
-    //         center: [coords.longitude, coords.latitude],
-    //         zoom: 10,
-    //     });
-    // });
 }
 
 const renderMarkers = () => {
@@ -137,7 +133,9 @@ const initMapEvents = () => {
 }
 
 const loadSingleView = async (lngLat) => {
+    loadSpinner();
     await fetchData(lngLat);
+    unloadSpinner();
     renderModal();
 
     modalWindow.classList.add("opened");
@@ -151,7 +149,7 @@ const loadSingleView = async (lngLat) => {
         location.hash = "map";
     })
 
-    const botonCerrar = modalWindow.querySelectorAll(".cerrar");
+    const botonCerrar = app.querySelectorAll(".cerrar");
 
     botonCerrar.forEach(botonCerrar => {
         botonCerrar.addEventListener("click", () => {
@@ -160,6 +158,16 @@ const loadSingleView = async (lngLat) => {
             location.hash = "map";
         })
     })
+}
+
+const loadSpinner = () => {
+    const spinner = document.querySelector(".spinner");
+    spinner.classList.add("opened");
+}
+
+const unloadSpinner = () => {
+    const spinner = document.querySelector(".spinner");
+    spinner.classList.remove("opened");
 }
 
 const fetchData = async (lngLat) => {
@@ -179,28 +187,22 @@ const renderModal = () => {
         </header>
 
         <main>
-            <div class="weather_list">
-                <div class="weather_list_item">
+            <div class="weather_items">
+                <div class="weather_item">
+
+                    <div class="tiempo">
+                        <div class="fa fa-cloud"></div>
+                        <p>${weather.main.temp}°C</p>
+                    </div>
 
                     <div class="humedad">
-                        <div class="gota">
-                            <div class="fa fa-tint"></div>
-                        </div>
-                        <p class="porcentaje_humedad">${weather.main.humidity}%</p>
+                        <div class="fa fa-tint"></div>
+                        <p>${weather.main.humidity}%</p>
                     </div>
 
-                    <div class="weather">
-                        <div class="weather_icon">
-                            <div class="fa fa-cloud"></div>
-                        </div>
-                        <p class="temperature">${weather.main.temp}°C</p>
-                    </div>
-
-                    <div class="wind">
-                        <div class="direction">
-                            <div class="fa fa-location-arrow"></div>
-                        </div>
-                        <p class="velocity">${weather.wind.speed}mph</p>
+                    <div class="viento">
+                        <div class="fa fa-location-arrow"></div>
+                        <p>${weather.wind.speed}mph</p>
                     </div>
 
                 </div>
@@ -209,25 +211,21 @@ const renderModal = () => {
 
         <footer>
             <div class="cerrar">
-                <div class="back">
-                    <div class="fa fa-arrow-left"></div>
-                    <p>Volver al mapa</p>
-                </div>
+                <div class="fa fa-arrow-left"></div>
+                <p>Volver al mapa</p>
             </div>
-            <div class="save_place">
-                <div class="save">
-                    <div class="fa fa-map-marker"></div>
-                </div>
+            <div class="guardar">
+                <div class="fa fa-map-marker"></div>
             </div>
-        </footer>    
+        </footer>
     `
     saveMarker()
 }
 
 const saveMarker = () => {
-    const save = modalWindow.querySelector(".save_place")
+    const guardar = modalWindow.querySelector(".guardar")
     markersPositions.push(weather)
-    save.addEventListener("click", () => {
+    guardar.addEventListener("click", () => {
         modalWindow.classList.remove("opened");
         modalWindowBg.classList.remove("opened");
         location.hash = "map";

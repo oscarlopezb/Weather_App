@@ -3561,7 +3561,7 @@ p {
     -ms-grid-column: 1;
     -ms-grid-column-span: 2;
     grid-area: 1 / 1 / span 1 / span 2;
-    z-index: 1;
+    z-index: 3;
   }
   .app .main {
     -ms-grid-column: 1;
@@ -3572,15 +3572,10 @@ p {
     grid-area: 1 / 3 / -1 / -1;
   }
   .app .spinner {
-    -ms-grid-column: 1;
-    -ms-grid-column-span: 2;
-    grid-area: 1 / 1 / -1 / span 2;
-    z-index: 4;
+    grid-area: 1 / 1 / -1 / -1;
   }
   .app .modal {
-    -ms-grid-column: 1;
-    -ms-grid-column-span: 1;
-    grid-area: 1 / 1 / -1 / span 1;
+    grid-area: 1 / 2 / -1 / -1;
     z-index: 4;
   }
   .app .modal_bg {
@@ -3593,15 +3588,7 @@ p {
 
 .header {
   background-color: #605ece;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  text-align: center;
   padding: 1rem;
   color: white;
 }
@@ -3611,27 +3598,31 @@ p {
   padding: 1em;
 }
 
-.footer .ubicacion {
+.footer .footermodal {
+  display: block;
+  position: relative;
+}
+
+.footer .footermodal .cerrar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: white;
-  cursor: pointer;
 }
 
-.footer .ubicacion .fa {
-  margin-right: 1rem;
+.footer .footermodal .cerrar .fa {
   font-size: 1.5rem;
+  margin-right: 1rem;
 }
 
-.footer .ubicacion p {
-  margin: 0;
+.footer .footermodal .guardar .fa {
+  display: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -3639,32 +3630,39 @@ p {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+    border-radius: 0 1rem 1rem 0;
+    position: absolute;
+    height: 8%;
+    width: 70px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    top: 45%;
+    z-index: 5;
   }
-  .footer .volver_ubicacion .ubicacion {
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    width: 60px;
-    height: 60px;
+  .footer .footermodal {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    color: white;
   }
-  .footer .volver_ubicacion .ubicacion .fa {
-    margin: 0;
-    padding: 0.5rem;
-    font-size: 1.75rem;
-    text-align: center;
-    width: 100%;
-  }
-  .footer .volver_ubicacion .ubicacion p {
+  .footer .footermodal p {
     display: none;
   }
-  .footer .volver_ubicacion .ubicacion:hover {
-    background-color: #272727;
+  .footer .footermodal .fa {
+    padding-left: .5rem;
+    font-size: 2rem;
   }
 }
 
@@ -3677,17 +3675,16 @@ p {
       -ms-flex-direction: column;
           flex-direction: column;
   position: relative;
-  overflow: hidden;
-  background-color: white;
-  border-radius: 1rem;
-  width: 80%;
-  margin: 0 auto;
-  height: 80%;
-  padding: 2rem;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: 500ms ease-in-out;
   transition: 500ms ease-in-out;
+  background-color: white;
+  border-radius: 1rem;
+  width: 80%;
+  height: 80%;
+  margin: -3rem auto;
+  padding: 2rem;
 }
 
 .modal.opened {
@@ -3707,7 +3704,7 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 1rem;
+  font-size: .8rem;
 }
 
 .modal header .lugar {
@@ -3720,125 +3717,98 @@ p {
 
 .modal header .cerrar .fa {
   color: #605ece;
+  font-size: 1.5rem;
 }
 
-.modal main .weather_list {
+.modal main {
+  font-size: 1.2rem;
+}
+
+.modal main .weather_items {
   margin-top: 1rem;
 }
 
-.modal main .weather_list .weather_list_item {
+.modal main .weather_items .weather_item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 2rem 0;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 1rem 0.5rem;
   border-bottom: solid 1px #605ece;
 }
 
-.modal main .weather_list .weather_list_item .humedad {
+.modal main .weather_items .weather_item .humedad, .modal main .weather_items .weather_item .tiempo, .modal main .weather_items .weather_item .viento {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-}
-
-.modal main .weather_list .weather_list_item .humedad .gota .fa {
-  margin-right: 0.5rem;
-}
-
-.modal main .weather_list .weather_list_item .weather {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 
-.modal main .weather_list .weather_list_item .weather .weather_icon .fa {
-  margin-right: 0.5rem;
-}
-
-.modal main .weather_list .weather_list_item .wind {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.modal main .weather_list .weather_list_item .wind .direction .fa {
-  margin-right: 0.5rem;
+.modal main .weather_items .weather_item .fa {
+  margin-right: .5rem;
 }
 
 .modal footer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-top: auto;
+  font-size: 1rem;
 }
 
-.modal footer .back {
+.modal footer .fa {
+  margin-right: .5rem;
+  color: #605ece;
+  font-size: 1.5rem;
+}
+
+.modal footer .cerrar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  font-size: 1.2rem;
 }
 
-.modal footer .back .fa {
-  margin-right: .5rem;
-  color: #605ece;
+.modal footer .cerrar .fa {
+  margin-right: 1rem;
 }
 
-.modal footer .save_place {
+.modal footer .guardar {
   cursor: pointer;
 }
 
-.modal footer .save_place .save {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+.modal footer .guardar .fa {
   font-size: 2rem;
-}
-
-.modal footer .save_place .save .fa {
-  margin-right: .5rem;
-  color: #605ece;
+  margin-right: -.2rem;
 }
 
 @media screen and (min-width: 768px) {
   .modal {
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
-    border-radius: 0;
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+    width: 80%;
+    height: 70%;
+    top: 20%;
+    right: 28%;
   }
   .modal.opened {
     -webkit-transform: translateX(0);
@@ -3856,15 +3826,17 @@ p {
 }
 
 .modal_bg.opened {
-  display: block;
-  visibility: visible;
   opacity: 1;
+  visibility: visible;
+  display: block;
   -webkit-transition: 500ms ease-in-out;
   transition: 500ms ease-in-out;
 }
 
 .spinner {
   visibility: hidden;
+  font-size: 2rem;
+  color: #605ece;
 }
 
 .spinner.opened {
